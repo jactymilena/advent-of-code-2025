@@ -1,30 +1,28 @@
 from utils.reader import read_file
 
+
 def main():
     file_path = 'input/day3-input.txt'
     file = read_file(file_path)
-    max_joltage = ''
     joltages_sum = 0
-    max1_setted = False
-    
+
     for i, bank in enumerate(file):
         batteries = [int(i) for i in bank.strip()]
-        max1 = -1
-        max2 = -1
-        for i, joltage in enumerate(batteries):
-            if i < len(batteries) - 1:
-                new_max1 = max(joltage, max1)
-                if new_max1 > max1:
-                    max1 = new_max1
-                    max2 = batteries[i + 1]
-                    max1_setted = True
-            if i > 0 and not max1_setted:
-                max2 = max(joltage, max2)
+        max_12_jolt = [-1] * 12 
 
-            max1_setted = False
+        for i, jolt in enumerate(batteries):
+            for k in range(len(max_12_jolt)):
+                if len(batteries) - i >= 12 - k:
+                    if jolt > max_12_jolt[k]:
+                        max_12_jolt[k] = jolt
+                        max_12_jolt[k + 1:] = [-1] * (11 - k)
+                        break
+
         
-        max_joltage = str(max1) + str(max2)
+        max_joltage = ''.join(str(x) for x in max_12_jolt if x != -1)
         joltages_sum += int(max_joltage)
-    print(f"sum joltags : {joltages_sum}")
+
+    print(f"joltages_sum : {joltages_sum}")
+                
 
 main()
