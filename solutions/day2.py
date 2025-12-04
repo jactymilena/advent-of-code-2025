@@ -3,13 +3,15 @@ from utils.reader import read_file
 
 def has_patterns(str_id):
     str_id = str(int(str_id))
+    str_len = len(str_id)
 
-    if len(str_id) % 2 != 0:
-        return 0
-    mid = len(str_id) // 2
-    if str_id[:mid] == str_id[mid:]:
-        return 1
-    return 0
+    for i in range(1, str_len):
+        if str_len % i == 0:
+            pattern = str_id[0:i]
+            if pattern * (str_len // i) == str_id:
+                return True   
+    return False
+
 
 def main():
     file_path = 'input/day2-input.txt'
@@ -21,7 +23,6 @@ def main():
         for el in line_elements:
             if el != '\n':
                 ids = el.split('-')
-                # print(ids)
                 for i in range(int(ids[0]), int(ids[1]) + 1):
                     n = has_patterns(i)
                     if n == 1:
