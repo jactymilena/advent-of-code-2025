@@ -42,4 +42,5 @@ def main():
         print()
 
     print(f"invalid_rolls : {invalid_rolls}")
+    
 main()
